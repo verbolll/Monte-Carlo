@@ -15,9 +15,11 @@ from gui.Ui_Poisson import Ui_Poisson
 from gui.Ui_Guide import Ui_Guide
 from gui.Ui_mcm import Ui_mcm
 from gui.Ui_example import Ui_example
+from gui.Ui_example2 import Ui_Exp2
 from src import draw
 from mcm import getnum
 from example import exa
+import example2
 
 def mygettext(self):
     self.p = self.pled.text()
@@ -47,6 +49,15 @@ class WorkThread(QThread):
             fp.write('\n')
             fp.write('sigmapf,' + str(csvlist.std()))
             self.meanlab.setText(str('pf' + str(csvlist.mean()) + '\n' + 'sigma' + str(csvlist.std())))
+
+class WorkThread1(QThread):
+    def __init__(self, meanlab, time):
+        super().__init__()
+        self.meanlab = meanlab
+        self.time = time
+    def run(self):
+        num = example2.exa(self.time)
+        self.meanlab.setText('失效率：' + str(num))
             
 class MainWindows(QWidget, Ui_Guide):
     def __init__(self):
@@ -65,6 +76,8 @@ class MainWindows(QWidget, Ui_Guide):
         self.threebtn.clicked.connect(lambda : self.threewindows.show())
         self.fourwindows = ExampleWindows()
         self.fourbtn.clicked.connect(lambda : self.fourwindows.show())
+        self.fivewindows = Example2Windows()
+        self.fivebtn.clicked.connect(lambda : self.fivewindows.show())
 
 class BernoulliWindows(QWidget, Ui_Bernoulli):
     def __init__(self):
@@ -152,6 +165,34 @@ class ExampleWindows(QWidget, Ui_example):
         self.pfone = self.workThread.start()
         self.workThread.finished.connect(lambda : self.overworkThread())
         self.meanlab.setText('计算中……')
+
+    def overworkThread(self):
+        self.workThread.deleteLater()
+
+
+class Example2Windows(QWidget, Ui_Exp2):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.surebtnclk()
+        appIcon = QIcon('./icon/icon.ico')
+        self.setWindowIcon(appIcon)
+        self.band()
+
+    def band(self):
+        self.pix = QtGui.QPixmap('exp2.png')
+        self.explab.setScaledContents(True)
+        self.explab.setPixmap(self.pix)
+
+    def surebtnclk(self):
+        
+        self.surebtn.clicked.connect(lambda : self.star())
+    def star(self):
+        self.time = int(float(self.lineEdit.text()))
+        self.workThread = WorkThread1(self.finlab, self.time)
+        self.workThread.start()
+        self.workThread.finished.connect(lambda : self.overworkThread())
+        self.finlab.setText('计算中……')
 
     def overworkThread(self):
         self.workThread.deleteLater()

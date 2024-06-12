@@ -1,0 +1,4 @@
+pyside6
+qt_material
+numpy
+matplotlib
