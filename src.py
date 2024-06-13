@@ -1,5 +1,4 @@
 from MonteCarlo import bignum
-from mcm import getnum
 import matplotlib.pylab as plt
 def draw(method, p, time):
     step_list = []

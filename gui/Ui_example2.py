@@ -32,11 +32,6 @@ class Ui_Exp2(object):
 
         self.gridLayout.addWidget(self.explab, 0, 0, 1, 1)
 
-        self.surebtn = QPushButton(Exp2)
-        self.surebtn.setObjectName(u"surebtn")
-
-        self.gridLayout.addWidget(self.surebtn, 5, 0, 1, 1)
-
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.label_2 = QLabel(Exp2)
@@ -56,6 +51,25 @@ class Ui_Exp2(object):
 
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
 
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.label_4 = QLabel(Exp2)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.label_4)
+
+        self.lineEdit_2 = QLineEdit(Exp2)
+        self.lineEdit_2.setObjectName(u"lineEdit_2")
+        self.lineEdit_2.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.lineEdit_2)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(Exp2)
@@ -71,13 +85,21 @@ class Ui_Exp2(object):
         self.verticalLayout.addWidget(self.lineEdit)
 
 
-        self.gridLayout.addLayout(self.verticalLayout, 3, 0, 1, 1)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_2, 2, 0, 1, 1)
 
         self.finlab = QLabel(Exp2)
         self.finlab.setObjectName(u"finlab")
         self.finlab.setAlignment(Qt.AlignCenter)
 
-        self.gridLayout.addWidget(self.finlab, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.finlab, 3, 0, 1, 1)
+
+        self.surebtn = QPushButton(Exp2)
+        self.surebtn.setObjectName(u"surebtn")
+
+        self.gridLayout.addWidget(self.surebtn, 4, 0, 1, 1)
 
 
         self.retranslateUi(Exp2)
@@ -88,10 +110,11 @@ class Ui_Exp2(object):
     def retranslateUi(self, Exp2):
         Exp2.setWindowTitle(QCoreApplication.translate("Exp2", u"example2", None))
         self.explab.setText("")
-        self.surebtn.setText(QCoreApplication.translate("Exp2", u"\u786e\u5b9a", None))
         self.label_2.setText(QCoreApplication.translate("Exp2", u"\u4e2d\u5fc3\u70b9\u6cd5\uff1a0.0962", None))
         self.label_3.setText(QCoreApplication.translate("Exp2", u"\u9a8c\u7b97\u70b9\u6cd5\uff1a0.184", None))
+        self.label_4.setText(QCoreApplication.translate("Exp2", u"\u6837\u672c\u5bb9\u91cf", None))
         self.label.setText(QCoreApplication.translate("Exp2", u"\u8bd5\u9a8c\u6b21\u6570", None))
         self.finlab.setText("")
+        self.surebtn.setText(QCoreApplication.translate("Exp2", u"\u786e\u5b9a", None))
     # retranslateUi
 

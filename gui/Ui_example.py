@@ -83,7 +83,7 @@ class Ui_example(object):
         self.meanlab.setText("")
         self.numlab.setText(QCoreApplication.translate("example", u"\u6837\u672c\u5bb9\u91cf", None))
         self.timelab.setText(QCoreApplication.translate("example", u"\u5b9e\u9a8c\u6b21\u6570", None))
-        self.timeedt.setText(QCoreApplication.translate("example", u"1", None))
+        self.timeedt.setText(QCoreApplication.translate("example", u"100", None))
         self.surebtn.setText(QCoreApplication.translate("example", u"\u786e\u5b9a", None))
         self.openxlxsbtn.setText(QCoreApplication.translate("example", u"\u67e5\u770b\u7ed3\u679c\u8868", None))
     # retranslateUi

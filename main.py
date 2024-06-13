@@ -17,7 +17,7 @@ from gui.Ui_mcm import Ui_mcm
 from gui.Ui_example import Ui_example
 from gui.Ui_example2 import Ui_Exp2
 from src import draw
-from mcm import getnum
+from mcm import LinearCongruentialGenerator
 from example import exa
 import example2
 
@@ -51,13 +51,28 @@ class WorkThread(QThread):
             self.meanlab.setText(str('pf' + str(csvlist.mean()) + '\n' + 'sigma' + str(csvlist.std())))
 
 class WorkThread1(QThread):
-    def __init__(self, meanlab, time):
+    def __init__(self, num, meanlab, time):
         super().__init__()
+        self.num = num
         self.meanlab = meanlab
         self.time = time
     def run(self):
-        num = example2.exa(self.time)
-        self.meanlab.setText('失效率：' + str(num))
+        # num = example2.exa(self.time)
+        # self.meanlab.setText('失效率：' + str(num))
+
+        csvlist = np.array([])
+        with open('2.csv', 'w', encoding='utf-8') as fp:
+            for i in range(self.time):
+                self.pfone = example2.exa(self.num)
+                csvlist = np.append(csvlist, self.pfone)
+                # self.meanlab.setText(str(self.pfone))
+                fp.write(str(self.pfone))
+                fp.write('\n')
+            print(csvlist)
+            fp.write('pf,' + str(csvlist.mean()))
+            fp.write('\n')
+            fp.write('sigmapf,' + str(csvlist.std()))
+            self.meanlab.setText(str('pf' + str(csvlist.mean()) + '\n' + 'sigma' + str(csvlist.std())))
             
 class MainWindows(QWidget, Ui_Guide):
     def __init__(self):
@@ -132,9 +147,13 @@ class McmWindows(QWidget, Ui_mcm):
         self.M = self.medt.text()
         self.x0 = self.x0edt.text()
         if self.cedt.text() == '':
-            self.list11 = getnum(eval(self.M), eval(self.llambda), eval(self.x0))
+            lcg = LinearCongruentialGenerator(eval(self.M), eval(self.llambda), eval(self.x0))
+            random_numbers = [lcg.next() for _ in range(eval(self.M) * 10)]
+            self.list11 = sorted(set(random_numbers))
         else:
-            self.list11 = getnum(eval(self.M), eval(self.llambda), eval(self.x0), eval(self.cedt.text()))
+            lcg = LinearCongruentialGenerator(eval(self.M), eval(self.llambda), eval(self.x0), eval(self.cedt.text()))
+            random_numbers = [lcg.next() for _ in range(eval(self.M) * 10)]
+            self.list11 = sorted(set(random_numbers))
         self.list1 = [str(x) for x in self.list11]
         self.listModel = QStringListModel()
         self.listModel.setStringList(self.list1)
@@ -189,7 +208,8 @@ class Example2Windows(QWidget, Ui_Exp2):
         self.surebtn.clicked.connect(lambda : self.star())
     def star(self):
         self.time = int(float(self.lineEdit.text()))
-        self.workThread = WorkThread1(self.finlab, self.time)
+        self.num = int(float(self.lineEdit_2.text()))
+        self.workThread = WorkThread1(self.num, self.finlab, self.time)
         self.workThread.start()
         self.workThread.finished.connect(lambda : self.overworkThread())
         self.finlab.setText('计算中……')
